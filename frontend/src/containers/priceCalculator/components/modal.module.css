@@ -1,0 +1,62 @@
+.desc {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+.mainBtnContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.tabs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.selectedStep {
+  border-bottom: 2px solid var(--mantine-color-accent-6);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.projects {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.project {
+  border: 1px solid var(--mantine-color-gray-2);
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.selectedProject {
+  border: 2px solid var(--mantine-color-accent-6);
+}
+
+.projectName {
+  font-weight: 600;
+  color: var(--mantine-color-dark-7);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 8px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.emptyState p {
+  margin: 0;
+  color: #9ca3af;
+}
+
+.projectName {
+  cursor: pointer;
+  font-size: 14px;
+}

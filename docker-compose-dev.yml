@@ -1,0 +1,93 @@
+version: '3.9'
+
+services:
+  # --- Django Backend ---
+  web:
+    build:
+      context: ./backend/back_AI_opinion_polling
+      dockerfile: Dockerfile
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             gunicorn simulate_human_samples.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - ./backend/back_AI_opinion_polling:/app
+      - static_volume:/app/staticfiles
+    environment:
+      - DJANGO_SETTINGS_MODULE=simulate_human_samples.settings.development
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+    expose:
+      - "8000"
+
+  # --- Frontend (React/Vue/etc.) ---
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80" # Access your site here
+    depends_on:
+      - web
+
+  # --- Nginx (For Backend Static Files & API Proxy) ---
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "4444:80"
+    volumes:
+      - ./backend/back_AI_opinion_polling/dev_nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - static_volume:/app/staticfiles
+    depends_on:
+      - web
+
+  # --- Databases & Workers ---
+  db:
+    image: postgres:15
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: ${DEVELOPMENT_POSTGRES_DB}
+      POSTGRES_USER: ${DEVELOPMENT_POSTGRES_USER}
+      POSTGRES_PASSWORD: "${DEVELOPMENT_POSTGRES_PASSWORD}"
+    ports:
+      - "5454:5432"
+
+  redis:
+    image: redis:7
+    ports:
+      - "6479:6379"
+
+  celery_worker:
+    build: ./backend/back_AI_opinion_polling
+    command: celery -A simulate_human_samples worker --loglevel=info
+    volumes:
+      - ./backend/back_AI_opinion_polling:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=simulate_human_samples.settings.development
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+
+  celery_beat:
+    build: ./backend/back_AI_opinion_polling
+    command: celery -A simulate_human_samples beat --loglevel=info
+    volumes:
+      - ./backend/back_AI_opinion_polling:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=simulate_human_samples.settings.development
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+
+volumes:
+  postgres_data:
+  static_volume:

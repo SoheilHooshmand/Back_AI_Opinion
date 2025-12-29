@@ -1,0 +1,81 @@
+.card {
+  background: #f4f9ff;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* ---------- Text ---------- */
+
+.subTitle {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.smallLabel {
+  font-size: 12px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.helper {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+/* ---------- Screening ---------- */
+
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.selectWrapper {
+  margin-top: 12px;
+  padding-left: 16px;
+  border-left: 2px solid #3b82f6;
+}
+
+/* ---------- Location ---------- */
+
+.locationGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.locationOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.flag {
+  font-size: 18px;
+}
+
+/* ---------- Divider ---------- */
+
+.divider {
+  border: none;
+  border-top: 1px solid #d6e0f0;
+  margin: 24px 0;
+}

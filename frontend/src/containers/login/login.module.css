@@ -1,0 +1,37 @@
+.bg {
+  width: 100%;
+  min-height: 100vh;
+  background: #f4f4ed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.forgot {
+  font-size: 14px;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+
+.bottom {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.link {
+  color: #1d4ed8;
+  font-weight: 500;
+  text-decoration: none;
+}

@@ -1,0 +1,80 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             gunicorn simulate_human_samples.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+    environment:
+      - DJANGO_SETTINGS_MODULE=simulate_human_samples.settings.development
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+    expose:
+      - "8000"
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "4444:80"
+    volumes:
+      - ./dev_nginx/conf.d:/etc/nginx/conf.d
+      - static_volume:/app/staticfiles
+    environment:
+      - DJANGO_SETTINGS_MODULE=simulate_human_samples.settings.development
+    depends_on:
+      - web
+
+  db:
+    image: postgres:15
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: ${DEVELOPMENT_POSTGRES_DB}
+      POSTGRES_USER: ${DEVELOPMENT_POSTGRES_USER}
+      POSTGRES_PASSWORD: "${DEVELOPMENT_POSTGRES_PASSWORD}"
+    ports:
+      - "5454:5432"
+
+  redis:
+    image: redis:7
+    ports:
+      - "6479:6379"
+
+  celery_worker:
+    build: .
+    command: celery -A simulate_human_samples worker --loglevel=info
+    volumes:
+      - .:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=simulate_human_samples.settings.development
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+
+  celery_beat:
+    build: .
+    command: celery -A simulate_human_samples beat --loglevel=info
+    volumes:
+      - .:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=simulate_human_samples.settings.development
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+
+volumes:
+  postgres_data:
+  static_volume:

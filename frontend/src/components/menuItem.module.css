@@ -1,0 +1,38 @@
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  color: var(--mantine-color-neutral-7);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.menuItem:hover {
+  color: var(--mantine-color-blue-4);
+}
+
+.menuItemActive {
+  color: var(--mantine-color-blue-4);
+  font-weight: 600;
+}
+
+.menuIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.menuLabel {
+  line-height: 1;
+}
+
+/* small screens */
+@media (max-width: 900px) {
+  .menuLabel {
+    display: none;
+  }
+}

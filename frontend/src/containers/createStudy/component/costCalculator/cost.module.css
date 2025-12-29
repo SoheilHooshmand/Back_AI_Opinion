@@ -1,0 +1,66 @@
+.title {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.modelBox {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    flex-direction: column;
+  }
+}
+
+.desc {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--mantine-color-gray-6);
+}
+.info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.infoTitle {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.paperContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.calculateTimeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    flex-direction: column;
+  }
+}
+
+.calculateTimeResult {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.calculateTimeResult p {
+  font-size: 14px;
+  color: var(--mantine-color-gray-9);
+  font-weight: 700;
+}
